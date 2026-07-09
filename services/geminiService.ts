@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type, GenerateContentResponse, Modality } from \"@google/genai\";
+import { GoogleGenAI, Type, GenerateContentResponse, Modality } from "@google/genai";
 import { Scenario, TranscriptMessage, Feedback } from '../types';
 
 // Lazily initialize to avoid issues during the initial render.
@@ -10,7 +10,7 @@ export function getGenAI(): GoogleGenAI {
         const apiKey = localStorage.getItem('gemini_api_key');
         
         if (!apiKey) {
-            throw new Error(\"Gemini API key is missing. Please add your API key in the application settings to start the simulation.\");
+            throw new Error("Gemini API key is missing. Please add your API key in the application settings to start the simulation.");
         }
         
         ai = new GoogleGenAI({ apiKey });
@@ -28,15 +28,15 @@ const detailedItemSchema = {
     properties: {
         point: { 
             type: Type.STRING, 
-            description: \"The main point, summary, or suggestion.\" 
+            description: "The main point, summary, or suggestion." 
         },
         details: {
             type: Type.ARRAY,
             items: { type: Type.STRING },
-            description: \"An array of specific sub-points, examples from the transcript, or phrasing suggestions. Can be empty if not applicable.\"
+            description: "An array of specific sub-points, examples from the transcript, or phrasing suggestions. Can be empty if not applicable."
         }
     },
-    required: [\"point\", \"details\"]
+    required: ["point", "details"]
 };
 
 const feedbackSchema = {
@@ -44,30 +44,30 @@ const feedbackSchema = {
     properties: {
         score: {
             type: Type.NUMBER,
-            description: \"A performance score from 1-10.\",
+            description: "A performance score from 1-10.",
         },
         strengths: {
             type: Type.ARRAY,
             items: { type: Type.STRING },
-            description: \"Observed strengths during the call. Be specific. If none, return empty array.\",
+            description: "Observed strengths during the call. Be specific. If none, return empty array.",
         },
         improvements: {
             type: Type.ARRAY,
             items: detailedItemSchema,
-            description: \"Areas for improvement with specific examples from the transcript.\",
+            description: "Areas for improvement with specific examples from the transcript.",
         },
         coachingTips: {
             type: Type.ARRAY,
             items: detailedItemSchema,
-            description: \"Tactical coaching tips and specific phrasing suggestions.\",
+            description: "Tactical coaching tips and specific phrasing suggestions.",
         },
         practiceQuestions: {
             type: Type.ARRAY,
             items: { type: Type.STRING },
-            description: \"A few practice questions for the user to rehearse later.\",
+            description: "A few practice questions for the user to rehearse later.",
         },
     },
-    required: [\"score\", \"strengths\", \"improvements\", \"coachingTips\", \"practiceQuestions\"],
+    required: ["score", "strengths", "improvements", "coachingTips", "practiceQuestions"],
 };
 
 
@@ -78,7 +78,7 @@ export const generateFeedback = async (scenario: Scenario, transcript: Transcrip
 
     const transcriptText = transcript
         .map(msg => `${msg.speaker === 'user' ? 'Consultant' : 'Client'}: ${msg.text}`)
-        .join('\\n');
+        .join('\n');
 
     const prompt = `
         You are a world-class sales coach. Analyze the following sales call transcript and the initial scenario.
@@ -106,7 +106,7 @@ export const generateFeedback = async (scenario: Scenario, transcript: Transcrip
             model: model,
             contents: prompt,
             config: {
-                responseMimeType: \"application/json\",
+                responseMimeType: "application/json",
                 responseSchema: feedbackSchema,
             },
         });
@@ -115,8 +115,8 @@ export const generateFeedback = async (scenario: Scenario, transcript: Transcrip
         const parsedJson = JSON.parse(jsonText);
         return parsedJson as Feedback;
     } catch (error) {
-        console.error(\"Error generating feedback from Gemini:\", error);
-        throw new Error(\"Failed to generate feedback.\");
+        console.error("Error generating feedback from Gemini:", error);
+        throw new Error("Failed to generate feedback.");
     }
 };
 
@@ -124,7 +124,7 @@ export const generateSpeech = async (text: string): Promise<string> => {
     const ai = getGenAI();
     try {
         const response = await ai.models.generateContent({
-            model: \"gemini-2.5-flash-preview-tts\",
+            model: "gemini-2.5-flash-preview-tts",
             contents: [{ parts: [{ text }] }],
             config: {
                 responseModalities: [Modality.AUDIO],
@@ -137,12 +137,12 @@ export const generateSpeech = async (text: string): Promise<string> => {
         });
         const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
         if (!base64Audio) {
-            throw new Error(\"No audio data received from TTS API.\");
+            throw new Error("No audio data received from TTS API.");
         }
         return base64Audio;
     } catch (error) {
-        console.error(\"Error generating speech:\", error);
-        throw new Error(\"Failed to generate speech.\");
+        console.error("Error generating speech:", error);
+        throw new Error("Failed to generate speech.");
     }
 };
 
