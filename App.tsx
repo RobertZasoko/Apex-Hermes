@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { AppState, Scenario, TranscriptMessage, UserProfile, CallRecord, Feedback, SavedScenario } from './types';
 import { generateFeedback, gatekeeper } from './services/geminiService';
 import { auth, getUserProfile, getSimulations, saveSimulation, updateUserProfile, deleteSimulation, deleteMultipleSimulations } from './services/firebase';
-
 // Landing Page Components
 import Header from './components/landing/Header';
 import Hero from './components/landing/Hero';
