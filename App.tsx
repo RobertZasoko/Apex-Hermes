@@ -45,7 +45,7 @@ const ApiKeySettings = ({ onSave }: { onSave: () => void }) => {
 
 const App: React.FC = () => {
   const [view, setView] = useState<'landing' | 'app'>('landing');
-  const [appState, setAppState] = useState<AppState.SETUP>; // Default to Setup
+  const [appState, setAppState] = useState<AppState>(AppState.SETUP); // Default to Setup
   const [user, setUser] = useState<UserProfile | null>(null);
   const [currentScenario, setCurrentScenario] = useState<Scenario | null>(null);
   const [currentAudioDeviceId, setCurrentAudioDeviceId] = useState<string | undefined>(undefined);
@@ -108,7 +108,7 @@ const App: React.FC = () => {
     };
     const updatedScenarios = [...user.savedScenarios, newScenario];
     await updateUserProfile(user.id, { savedScenarios: updatedScenarios });
-    setUser(prevUser => prevUser ? { ...prevUser, savedScenarios: updatedSctarios } : null);
+    setUser(prevUser => prevUser ? { ...prevUser, savedScenarios: updatedScenarios } : null);
     alert(`Scenario "${name}" saved!`);
   }, [user]);
   
