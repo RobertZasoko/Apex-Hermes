@@ -47,6 +47,7 @@ const App: React.FC = () => {
   const [appState, setAppState] = useState<AppState>(AppState.SETUP); // Default to Setup
   const [user, setUser] = useState<UserProfile | null>(null);
   const [apiKeyLoaded, setApiKeyLoaded] = useState(!!localStorage.getItem('gemini_api_key'));
+  const [isInitializing, setIsInitializing] = useState(true);
   const [currentScenario, setCurrentScenario] = useState<Scenario | null>(null);
   const [currentAudioDeviceId, setCurrentAudioDeviceId] = useState<string | undefined>(undefined);
   const [currentFeedback, setCurrentFeedback] = useState<Feedback | null>(null);
