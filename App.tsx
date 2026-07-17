@@ -56,20 +56,26 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const initUser = async () => {
-      const profileData = await getUserProfile(auth.currentUser?.uid || 'local-guest');
-      const simulations = await getSimulations(auth.currentUser?.uid || 'local-guest');
-      
-      if (!profileData) {
-        await updateUserProfile(auth.currentUser?.uid || 'local-guest', {
-          name: "Guest User",
-        });
-      }
+      try {
+        const profileData = await getUserProfile(auth.currentUser?.uid || 'local-guest');
+        const simulations = await getSimulations(auth.currentUser?.uid || 'local-guest');
+        
+        if (!profileData) {
+          await updateUserProfile(auth.currentUser?.uid || 'local-guest', {
+            name: "Guest User",
+          });
+        }
 
-      const fullUserProfile: UserProfile = {
-        ...(await getUserProfile(auth.currentUser?.uid || 'local-guest'))!,
-        callHistory: simulations,
-      };
-      setUser(fullUserProfile);
+        const fullUserProfile: UserProfile = {
+          ...(await getUserProfile(auth.currentUser?.uid || 'local-guest'))!,
+          callHistory: simulations,
+        };
+        setUser(fullUserProfile);
+      } catch (e) {
+        console.error("Initialization error:", e);
+      } finally {
+        setIsInitializing(false);
+      }
     };
     initUser();
   }, []);
