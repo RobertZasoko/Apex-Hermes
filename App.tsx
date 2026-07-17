@@ -8,7 +8,6 @@ import Hero from './components/landing/Hero';
 import Problem from './components/landing/Problem';
 import Solution from './components/landing/Solution';
 import Features from './components/landing/Features';
-import Pricing from './components/landing/Pricing';
 import Cta from './components/landing/Cta';
 import Footer from './components/landing/Footer';
 
@@ -219,7 +218,6 @@ const App: React.FC = () => {
             <Problem />
             <Solution />
             <Features />
-            <Pricing onStart={handleStartApp} />
             <Cta onStart={handleStartApp} />
           </main>
           <Footer />
