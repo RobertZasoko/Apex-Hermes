@@ -28,7 +28,6 @@ const Header: React.FC<HeaderProps> = ({ onStart }) => {
   const navLinks = (
     <>
       <a href="#features" onClick={handleNavClick} className="text-text-secondary hover:text-text-primary transition-colors">Features</a>
-      <a href="#pricing" onClick={handleNavClick} className="text-text-secondary hover:text-text-primary transition-colors">Pricing</a>
     </>
   );
 
@@ -48,9 +47,6 @@ const Header: React.FC<HeaderProps> = ({ onStart }) => {
 
           {/* Desktop CTAs */}
           <div className="hidden md:flex items-center gap-4">
-            <button onClick={onStart} className="font-semibold text-text-secondary hover:text-text-primary transition-colors">
-              Login
-            </button>
             <button onClick={onStart} className="bg-primary hover:bg-primary-hover text-white font-semibold py-2 px-4 rounded-lg transition-colors">
               Get Started
             </button>
@@ -72,9 +68,6 @@ const Header: React.FC<HeaderProps> = ({ onStart }) => {
         <div className="md:hidden bg-panel border-t border-border">
           <nav className="flex flex-col items-center gap-4 p-4 font-medium">
             {navLinks}
-            <button onClick={handleMobileActionClick} className="font-semibold text-text-secondary hover:text-text-primary transition-colors w-full text-center py-2">
-              Login
-            </button>
             <button onClick={handleMobileActionClick} className="bg-primary hover:bg-primary-hover text-white font-semibold py-2 px-4 rounded-lg transition-colors w-full text-center">
               Get Started
             </button>
